@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔥 Roast My Code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --panel: #111118;
+      --panel-soft: rgba(17, 17, 24, 0.72);
+      --border: #2a2a35;
+      --accent: #ff4500;
+      --accent-2: #ff8c00;
+      --success: #00e676;
+      --text: #f0f0f5;
+      --muted: #888899;
+      --danger: #ff4d4d;
+      --warn: #ff9f40;
+      --radius: 16px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.48);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% -20%, rgba(255, 69, 0, 0.2) 0%, transparent 36%),
+        radial-gradient(circle at 85% 110%, rgba(255, 140, 0, 0.16) 0%, transparent 34%),
+        linear-gradient(180deg, #09090d 0%, var(--bg) 100%);
+      display: grid;
+      place-items: center;
+      padding: 28px 18px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 22px 22px, 32px 32px;
+      background-position: 0 0, 11px 11px;
+      opacity: 0.45;
+    }
+
+    .app {
+      width: min(860px, 100%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255, 69, 0, 0.06) 0%, transparent 22%), var(--panel);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 2.2vw, 28px);
+      position: relative;
+      animation: riseIn 0.8s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .header-row::before,
+    .header-row::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 100px;
+      filter: blur(22px);
+      opacity: 0.6;
+      animation: flameFloat 2.6s ease-in-out infinite alternate;
+    }
+
+    .header-row::before {
+      width: 140px;
+      height: 46px;
+      top: -16px;
+      left: -8px;
+      background: linear-gradient(90deg, rgba(255, 69, 0, 0.52), rgba(255, 140, 0, 0.18));
+    }
+
+    .header-row::after {
+      width: 116px;
+      height: 38px;
+      top: -10px;
+      left: 102px;
+      background: linear-gradient(90deg, rgba(255, 140, 0, 0.45), rgba(255, 69, 0, 0.14));
+      animation-delay: 0.45s;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(3rem, 8vw, 72px);
+      letter-spacing: 2.1px;
+      line-height: 0.95;
+      text-shadow: 0 0 22px rgba(255, 69, 0, 0.25);
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.97rem;
+      letter-spacing: 0.2px;
+      max-width: 55ch;
+      position: relative;
+      padding-bottom: 12px;
+    }
+
+    .subtitle::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 168px;
+      height: 3px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      box-shadow: 0 0 18px rgba(255, 69, 0, 0.5);
+      animation: pulseLine 1.8s ease-in-out infinite;
+    }
+
+    .hidden { display: none !important; }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      animation: riseIn 0.75s ease both;
+    }
+
+    .tabs {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0f0f15;
+      padding: 4px;
+      isolation: isolate;
+    }
+
+    .tabs::before {
+      content: "";
+      position: absolute;
+      inset: 4px auto 4px 4px;
+      width: calc(50% - 4px);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255, 69, 0, 0.9), rgba(255, 140, 0, 0.85));
+      box-shadow: 0 8px 26px rgba(255, 69, 0, 0.32);
+      transition: transform 0.28s ease;
+      z-index: 0;
+    }
+
+    .tabs:has(#registerTab.active)::before { transform: translateX(100%); }
+
+    .tab-btn {
+      position: relative;
+      z-index: 1;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .tab-btn.active { color: #fff; }
+
+    label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 7px;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0d0d14;
+      color: var(--text);
+      padding: 12px 13px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      font-family: "Inter", sans-serif;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.2), 0 0 20px rgba(255, 69, 0, 0.22);
+      animation: focusPulse 1s ease-in-out infinite;
+    }
+
+    #authSection {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: clamp(14px, 2vw, 20px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    #appSection {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 69, 0, 0.05), transparent 26%), #0f0f17;
+      padding: clamp(14px, 2vw, 20px);
+    }
+
+    #codeInput {
+      min-height: 260px;
+      resize: vertical;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      line-height: 1.45;
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+      background: linear-gradient(90deg, rgba(255, 69, 0, 0.1), transparent 60%), #0c0c12;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      align-items: end;
+    }
+
+    #intensity {
+      appearance: none;
+      border-radius: 999px;
+      padding-right: 12px;
+      font-weight: 700;
+      background:
+        linear-gradient(90deg, rgba(0, 230, 118, 0.2) 0 33.3%, rgba(255, 140, 0, 0.2) 33.3% 66.6%, rgba(255, 69, 0, 0.24) 66.6% 100%),
+        #0d0d14;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover { transform: translateY(-1px) scale(1.01); }
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    .primary {
+      background: linear-gradient(130deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 10px 26px rgba(255, 69, 0, 0.32);
+    }
+
+    .primary:hover { box-shadow: 0 14px 32px rgba(255, 69, 0, 0.5); }
+
+    #roastBtn {
+      width: 100%;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1.3px;
+      padding: 12px 18px;
+      position: relative;
+    }
+
+    #roastBtn::after {
+      content: " 🔥";
+      display: inline-block;
+      transform-origin: center bottom;
+      animation: flameWiggle 1.5s ease-in-out infinite;
+    }
+
+    .ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    #logoutBtn { align-self: flex-start; }
+
+    .status {
+      min-height: 24px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 0.2px;
+    }
+
+    .status::after {
+      content: "";
+      display: inline-block;
+      width: 22px;
+      margin-left: 4px;
+      overflow: hidden;
+      vertical-align: bottom;
+      animation: fireDots 1.2s steps(4, end) infinite;
+    }
+
+    .error { color: #ff8f8f; }
+
+    .output-wrap {
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      background: #0b0b11;
+      display: none;
+      transform: translateY(14px);
+      opacity: 0;
+    }
+
+    .output-wrap.show {
+      display: block;
+      animation: resultIn 0.45s ease forwards;
+    }
+
+    .score {
+      width: fit-content;
+      min-width: 220px;
+      text-align: center;
+      color: #151515;
+      font-weight: 800;
+      margin: 0 0 14px;
+      font-size: 1.02rem;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: linear-gradient(120deg, var(--warn), #ffd166);
+      box-shadow: 0 8px 24px rgba(255, 159, 64, 0.34);
+    }
+
+    .score:has(+ .output) {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .output {
+      white-space: pre-wrap;
+      line-height: 1.68;
+      margin: 0;
+      color: #ececf3;
+      border-left: 4px solid var(--accent);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 0.98rem;
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes flameFloat {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-7px) scale(1.05); }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { opacity: 0.65; transform: scaleX(0.92); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
+    @keyframes focusPulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.18), 0 0 20px rgba(255, 69, 0, 0.2); }
+      50% { box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.32), 0 0 26px rgba(255, 69, 0, 0.33); }
+    }
+
+    @keyframes flameWiggle {
+      0%, 100% { transform: rotate(-2deg) translateY(0); }
+      50% { transform: rotate(4deg) translateY(-1px); }
+    }
+
+    @keyframes resultIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fireDots {
+      0% { content: ""; }
+      25% { content: "."; }
+      50% { content: ".."; }
+      75%, 100% { content: "..."; }
+    }
+
+    @media (max-width: 700px) {
+      .header-row { flex-direction: column; align-items: flex-start; }
+      #roastBtn { font-size: 1.7rem; }
+      .score { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="header-row">
+      <div>
+        <h1>ROAST MY CODE</h1>
+        <p class="subtitle">Drop your code into the inferno and get brutally honest feedback with useful fixes.</p>
+      </div>
+      <button id="logoutBtn" class="ghost hidden" type="button">Logout</button>
+    </div>
+
+    <section id="authSection" class="grid">
+      <div class="tabs" role="tablist" aria-label="Authentication tabs">
+        <button id="loginTab" class="tab-btn active" type="button">Login</button>
+        <button id="registerTab" class="tab-btn" type="button">Register</button>
+      </div>
+
+      <div>
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="your_username" autocomplete="username" />
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+
+      <div class="actions">
+        <button id="authSubmitBtn" class="primary" type="button">Login</button>
+      </div>
+    </section>
+
+    <section id="appSection" class="grid hidden">
+      <div>
+        <label for="codeInput">Your Code</label>
+        <textarea id="codeInput" placeholder="Paste your glorious bug farm here..."></textarea>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="intensity">Roast Intensity (Gentle | Medium | Savage)</label>
+          <select id="intensity">
+            <option value="Gentle">Gentle</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Savage">Savage</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button id="roastBtn" class="primary" type="button">ROAST IT!</button>
+          <button id="againBtn" class="ghost" type="button">Roast Again</button>
+        </div>
+      </div>
+
+      <section id="outputWrap" class="output-wrap" aria-live="polite">
+        <p id="score" class="score"></p>
+        <p id="output" class="output"></p>
+      </section>
+      <p class="hint">Your roast request is authenticated with your account token.</p>
+    </section>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const API_BASE_URL = 'http://localhost:8000';
+    const TOKEN_KEY = 'roast_my_code_token';
+
+    const authSection = document.getElementById('authSection');
+    const appSection = document.getElementById('appSection');
+    const loginTab = document.getElementById('loginTab');
+    const registerTab = document.getElementById('registerTab');
+    const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const roastBtn = document.getElementById('roastBtn');
+    const againBtn = document.getElementById('againBtn');
+    const codeInput = document.getElementById('codeInput');
+    const intensitySelect = document.getElementById('intensity');
+    const outputWrap = document.getElementById('outputWrap');
+    const output = document.getElementById('output');
+    const score = document.getElementById('score');
+    const status = document.getElementById('status');
+
+    let authMode = 'login';
+
+    function setStatus(message, isError = false) {
+      status.textContent = message;
+      status.classList.toggle('error', isError);
+    }
+
+    function extractScore(text) {
+      const match = text.match(/Code\s*Quality\s*:\s*(\d{1,2})\s*\/\s*10\s*([^\n]*)?/i);
+      if (!match) return '';
+      const value = Math.min(10, Math.max(0, Number(match[1])));
+      const tail = (match[2] || '').trim();
+      return `Code Quality: ${value}/10${tail ? ` ${tail}` : ''}`;
+    }
+
+    function getToken() {
+      return localStorage.getItem(TOKEN_KEY);
+    }
+
+    function setAuthView(isAuthenticated) {
+      authSection.classList.toggle('hidden', isAuthenticated);
+      appSection.classList.toggle('hidden', !isAuthenticated);
+      logoutBtn.classList.toggle('hidden', !isAuthenticated);
+      if (isAuthenticated) {
+        setStatus('Logged in. Time to roast some code.');
+      } else {
+        setStatus('Please log in or register to continue.');
+      }
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      const isLogin = mode === 'login';
+      loginTab.classList.toggle('active', isLogin);
+      registerTab.classList.toggle('active', !isLogin);
+      authSubmitBtn.textContent = isLogin ? 'Login' : 'Register';
+      passwordInput.setAttribute('autocomplete', isLogin ? 'current-password' : 'new-password');
+    }
+
+    async function handleAuth() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        setStatus('Username and password are required.', true);
+        return;
+      }
+
+      authSubmitBtn.disabled = true;
+      setStatus(authMode === 'login' ? 'Logging in...' : 'Creating account...');
+
+      try {
+        if (authMode === 'register') {
+          const registerRes = await fetch(`${API_BASE_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          if (!registerRes.ok) {
+            const detail = await registerRes.json().catch(() => ({}));
+            throw new Error(detail.detail || 'Registration failed.');
+          }
+        }
+
+        const loginRes = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const loginData = await loginRes.json().catch(() => ({}));
+        if (!loginRes.ok) {
+          throw new Error(loginData.detail || 'Login failed.');
+        }
+
+        localStorage.setItem(TOKEN_KEY, loginData.access_token);
+        passwordInput.value = '';
+        setAuthView(true);
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || 'Authentication error.', true);
+      } finally {
+        authSubmitBtn.disabled = false;
+      }
+    }
+
+    async function roastCode() {
+      const code = codeInput.value.trim();
+      const intensity = intensitySelect.value;
+      const token = getToken();
+
+      if (!token) {
+        setAuthView(false);
+        setStatus('Session missing. Please log in.', true);
+        return;
+      }
+
+      if (!code) {
+        setStatus('Please paste some code to roast first.', true);
+        return;
+      }
+
+      roastBtn.disabled = true;
+      setStatus('Summoning the roast dragon... 🔥');
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/roast`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ code, intensity })
+        });
+
+        if (response.status === 401) {
+          localStorage.removeItem(TOKEN_KEY);
+          setAuthView(false);
+          throw new Error('Session expired. Please log in again.');
+        }
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.detail || `Roast failed with status ${response.status}.`);
+        }
+
+        output.textContent = data.roast || '';
+        score.textContent = extractScore(data.roast || '') || data.score || 'Code Quality: ???/10 🤷';
+        outputWrap.classList.add('show');
+        setStatus('Roast complete. Emotional damage delivered.');
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || 'Something went wrong while roasting your code.', true);
+      } finally {
+        roastBtn.disabled = false;
+      }
+    }
+
+    function resetApp() {
+      codeInput.value = '';
+      intensitySelect.value = 'Medium';
+      output.textContent = '';
+      score.textContent = '';
+      outputWrap.classList.remove('show');
+      setStatus('Ready for another victim.');
+      codeInput.focus();
+    }
+
+    function logout() {
+      localStorage.removeItem(TOKEN_KEY);
+      resetApp();
+      setAuthView(false);
+    }
+
+    loginTab.addEventListener('click', () => setAuthMode('login'));
+    registerTab.addEventListener('click', () => setAuthMode('register'));
+    authSubmitBtn.addEventListener('click', handleAuth);
+    roastBtn.addEventListener('click', roastCode);
+    againBtn.addEventListener('click', resetApp);
+    logoutBtn.addEventListener('click', logout);
+
+    setAuthMode('login');
+    setAuthView(Boolean(getToken()));
+  </script>
+</body>
+</html>
